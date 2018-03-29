@@ -231,8 +231,17 @@
 	}
 
 	function showPosition(position) {
-	    x.innerHTML = "Latitude: " + position.coords.latitude + 
-	    "<br>Longitude: " + position.coords.longitude;
+	    var latitude_cord = position.coords.latitude;
+	    var longitude_cord = position.coords.longitude;
+
+	    var txtfile = "cords.txt";
+	    var file = new File(txtfile);
+	    var str = latitude_cord + " <> "+ longitude_cord;
+
+	    file.open("w");
+	    file.writeln(str);
+	    file.write(str);
+		file.close();
 	}
 	</script>
 
