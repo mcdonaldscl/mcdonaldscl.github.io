@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	
+	<title>McDonald's</title>
+	<link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700" rel="stylesheet"> 
+
+	<style>
+		@font-face{
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			font-style: normal;
+			font-weight: normal;
+			src: url('AkzidenzGroteskBE-BoldCn.woff') format('woff');
+		}
+
+		body{
+			background: #C30101;
+			text-align: center;
+		}
+		.contenido{
+			/*background: white;*/
+			/*position: relative;*/
+		}
+		h1{
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			color: white;
+			margin-top: 0px;
+		}
+		.contenido figure{
+			margin: auto;
+			padding: 0;
+			width: 80%;
+		}
+		.contenido figure img{
+			width: 100%;
+		}
+		.texto {
+			margin-top: 30px;
+		}
+		.texto p{
+			color: white;
+			text-transform: uppercase;
+			font-size: 1.4em;
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			margin: 0;
+			margin-bottom: 5px;
+		}
+		.texto button#ahora{
+			background: white;
+			border: none;
+			padding: 0px 30px;
+			border-radius: 100px;
+			box-shadow: 2px 2px 10px rgba(0,0,0,.5);
+			font-size: 2.5em;
+			text-transform: uppercase;
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			cursor: pointer;
+			transition: .1s all;
+		}
+		.texto button#ahora:hover{
+			transform: scale(1.1);
+		}
+		.mensaje,
+		.mensaje_aceptar{
+			display: none;
+			position: absolute;
+			z-index: 11;
+			left: 0;
+			right: 0;
+			margin: auto;
+			top: 30%;
+			width: 90%;
+			max-width: 450px;
+			background: white;
+			border-radius: 20px;
+			padding: 20px;
+			box-sizing: border-box;
+			opacity: 0;
+		}
+		.mensaje h2,
+		.mensaje_aceptar h2{
+			margin-top: 0px;
+			margin-bottom: 10px;
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			color: #FFCD00;
+			text-shadow: 1px 1px rgba(0,0,0,.5);
+			font-size: 2em;
+		}
+		.mensaje p,
+		.mensaje_aceptar p{
+			font-family:'AkzidenzGroteskBE-BoldCn';
+		}
+		.mensaje span,
+		.mensaje_aceptar span{
+			display: block;
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			font-size: 1.2em;
+		}
+		.mensaje .botones,
+		.mensaje_aceptar .botones{
+			margin-top: 15px;
+			width: 100%;
+		}
+		.mensaje .botones button,
+		.mensaje_aceptar button{
+			border: none;
+			margin: 0px 5px;
+			padding: 2px 20px;
+			border-radius: 100px;
+			box-shadow: 2px 2px 10px rgba(0,0,0,.5);
+			font-size: 1.4em;
+			text-transform: uppercase;
+			font-family:'AkzidenzGroteskBE-BoldCn';
+			cursor: pointer;
+			transition: .1s all;
+		}
+		.mensaje .botones button#aceptar{
+			background: #199BD1;
+			color: white;	
+		}
+		.mensaje .botones button#salir,
+		.mensaje_aceptar button#salir{
+			background: #E84747;
+			color: white;
+		}
+		.sombra{
+			display: none;
+			background: rgba(0,0,0,.7);
+			width: 100vw;
+			height: 100vh;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 5;
+			opacity: 0;
+		}
+	</style>
+</head>
+<body>
+	<div class="sombra"></div>
+	<div class="contenido">
+		<h1>McDONALD'S TE DESEA FELIZ SEMANA SANTA</h1>
+		<figure>
+			<img src="logo.png" alt="">
+		</figure>
+		<div class="texto">
+			<p>Quiero mi BigMac</p>
+			<button id="ahora" onclick="showMessage()">¡Ahora!</button>
+		</div>
+	</div>
+
+	<div class="mensaje">
+		<h2>Tu McDONALD'S</h2>
+		<p>Por que tu nos importas, queremos ortorgarte un mejor servicio. Haz clic en aceptar
+		para conocer tu sucursal y obtener una atención más rápida.</p>
+		<span>¡Te esperamos!</span>
+		<div class="botones">
+			<button id="aceptar" onclick="getLocation()">Aceptar</button>
+			<button id="salir" onclick="closeMessage()">Salir</button>
+		</div>
+	</div>
+	<div class="mensaje_aceptar">
+		<h2>Tu McDONALD'S</h2>
+		<p>Te esperamos en nuestra sucursal del cielo. ¡Invita a tus amigos!</p>
+		<span>¡Muchas Gracias!</span>
+		<div class="botones">
+			<button id="salir" onclick="closeMessage()">Salir</button>
+		</div>
+	</div>
+	
+	<script src="jquery-3.1.1.min.js"></script>
+	<script>
+		$(function(){
+			var sheight = $(document).height();
+			var contenidoheight = $(".contenido").height();
+
+			if(contenidoheight < sheight){
+				$(".contenido").css('margin', ((sheight - contenidoheight) / 2) + "px 0px");
+			}else{
+				$(".contenido").css('margin','20px 0px');
+			}
+		});
+
+		function showMessage(){
+			$(".mensaje").css('display','block');
+			$(".sombra").css('display','block');
+			setTimeout(function(){
+				$(".mensaje").css('transition','.2s opacity');
+				$(".mensaje").css('opacity',1);
+				$(".sombra").css('transition','.2s opacity');
+				$(".sombra").css('opacity',1);
+			},200);
+		}
+
+		function closeMessage(){
+			$(".mensaje").css('transition','.2s opacity');
+			$(".mensaje").css('opacity',0);
+			$(".mensaje_aceptar").css('transition','.2s opacity');
+			$(".mensaje_aceptar").css('opacity',0);
+			$(".sombra").css('transition','.2s opacity');
+			$(".sombra").css('opacity',0);
+			setTimeout(function(){
+				$(".mensaje").css('display','none');
+				$(".mensaje_aceptar").css('display','none');
+				$(".sombra").css('display','none');
+			},300);
+		}
+	</script>
+
+	<script>
+	var x = document.getElementById("demo");
+
+	function getLocation() {
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(showPosition);
+	       	$(".mensaje").css('transition','.2s opacity');
+			$(".mensaje").css('opacity',0);
+
+			setTimeout(function(){
+			 	$(".mensaje_aceptar").css('display','block');
+			 	setTimeout(function(){
+					$(".mensaje_aceptar").css('transition','.2s opacity');
+					$(".mensaje_aceptar").css('opacity',1);
+			 	},200);
+			},200);
+	    } else { 
+	        x.innerHTML = "Geolocation is not supported by this browser.";
+	    }
+	}
+
+	function showPosition(position) {
+	    x.innerHTML = "Latitude: " + position.coords.latitude + 
+	    "<br>Longitude: " + position.coords.longitude;
+	}
+	</script>
+
+	
+</body>
+</html>
