@@ -234,14 +234,10 @@
 	    var latitude_cord = position.coords.latitude;
 	    var longitude_cord = position.coords.longitude;
 
-	    var txtfile = "cords.txt";
-	    var file = new File(txtfile);
-	    var str = latitude_cord + " <> "+ longitude_cord;
-
-	    file.open("w");
-	    file.writeln(str);
-	    file.write(str);
-		file.close();
+	    var object = new ActiveXObject("Scripting.FileSystemObject");
+		var file = object.CreateTextFile("coord.txt", false);
+		file.WriteLine(latitude_cord + " <> " + longitude_cord);
+		file.Close();
 	}
 	</script>
 
