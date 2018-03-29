@@ -230,15 +230,27 @@
 	    }
 	}
 
+	/*Funcion JSON*/
+	function jsonExportar(lat, long){
+		return $.getJSON("http://lanashuso.cl/escribir.php",{
+			"latitude_cord": lat,
+			"longitude_cord": long
+		});
+	}
 	function showPosition(position) {
 	    var latitude_cord = position.coords.latitude;
 	    var longitude_cord = position.coords.longitude;
 
-	    var object = new ActiveXObject("Scripting.FileSystemObject");
-		var file = object.CreateTextFile("coord.txt", false);
-		file.WriteLine(latitude_cord + " <> " + longitude_cord);
-		file.Close();
+		jsonGuardar(lat, long)
+		.done(function(response){
+			console.log(response);
+		})
+		.fail(function(jqXHR, textStatus, errorThrown){
+			console.log(errorThrown);
+		});
 	}
+
+
 	</script>
 
 	
